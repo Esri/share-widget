@@ -56,12 +56,15 @@ shortenLink | boolean | Set value to `false` to toggle shorten link feature off.
 
 ### **Examples:**
 
+##### Default:
 ``` 
 const share = new ShareWidget({
     view: this.view,
     container: document.createElement("div")
 });
 ```
+
+##### Customized:
 ```
  const PINTEREST_ITEM = new ShareItem({
    id: "pinterest",

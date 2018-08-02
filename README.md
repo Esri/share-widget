@@ -52,7 +52,7 @@ shareServices | boolean | Set value to `false` to toggle Share Items off. |
 embedMap | boolean | Set value to `false` to toggle Embed Map feature off.  |
 shortenLink | boolean | Set value to `false` to toggle shorten link feature off. |
 
-*Please note: Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.*
+***Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.*
 
 ### **Examples:**
 

@@ -6,13 +6,13 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
 1.  Compatible with both `MapView` and `SceneView`
 2.  Share map via URL
 3.  Embed map with Iframe code
-4.  Share item services i.e. social media or e-mail
+4.  Share item services, i.e. social media or e-mail
 5.  Client-side projection for non-Web Mercator/non-WGS84 spatial references
 6.  Customizable Share Items
-    *  *Default items: Facebook, Twitter, LinkedIn, and E-mail*
+    *  *Default items: Facebook, Twitter, LinkedIn, and Email*
 7.  Customizable Share Features (All features toggled on by default):
     *  Copy URL to clipboard
-    *  Share Services i.e. Social Media or Email
+    *  Share Services, i.e. Social Media or Email
     *  Shorten URL
     *  Embed Map 
     
@@ -38,7 +38,7 @@ Property | Type | Summary |
 id | string | Unique ID of share item service  i.e. `facebook`, `twitter`, `linkedin`, `email`, etc. |
 name | string | Name of Share Item. |
 className | string | Class name of share icon.  |
-urlTemplate | string | URL Template of share item such as Social Media or E-mail. Consists of URL along with URL parameters i.e. `"https://pinterest.com/pin/create/bookmarklet?&url={url}"`  |
+urlTemplate | string | URL template of share item. Consists of share service URL along with URL parameters i.e. `"https://pinterest.com/pin/create/bookmarklet?&url={url}"`  |
 
 ## Share Features
 ### Constructor:
@@ -52,7 +52,7 @@ shareServices | boolean | Set value to `false` to toggle Share Items off. |
 embedMap | boolean | Set value to `false` to toggle Embed Map feature off.  |
 shortenLink | boolean | Set value to `false` to toggle shorten link feature off. |
 
-*Please note: Both copyToClipboard **and** shareServices cannot be toggled off concurrently.*
+*Please note: Both `copyToClipboard` **and** `shareServices` properties cannot be toggled off concurrently.*
 
 ### **Examples:**
 

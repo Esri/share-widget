@@ -64,7 +64,7 @@ const share = new ShareWidget({
 });
 ```
 
-##### Customized:
+##### Custom:
 ```
  const PINTEREST_ITEM = new ShareItem({
    id: "pinterest",

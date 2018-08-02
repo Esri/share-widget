@@ -87,7 +87,7 @@ const share = new ShareWidget({
  });
 
  const shareFeatures = new ShareFeatures({
-   shareServices: false,
+   copyToClipboard: false,
    embedMap: false
  });
 

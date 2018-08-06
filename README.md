@@ -61,10 +61,10 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 | Property        | Type    | Summary                                                  |
 | --------------- | ------- | -------------------------------------------------------- |
-| copyToClipboard | boolean | Set value to `false` to toggle Copy URL feature off.     |
-| shareServices   | boolean | Set value to `false` to toggle Share Items off.          |
-| embedMap        | boolean | Set value to `false` to toggle Embed Map feature off.    |
-| shortenLink     | boolean | Set value to `false` to toggle shorten link feature off. |
+| copyToClipboard? | boolean | Set value to `false` to toggle Copy URL feature off.     |
+| shareServices?   | boolean | Set value to `false` to toggle Share Items off.          |
+| embedMap?        | boolean | Set value to `false` to toggle Embed Map feature off.    |
+| shortenLink?     | boolean | Set value to `false` to toggle shorten link feature off. |
 
 **Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.\
 

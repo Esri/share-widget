@@ -418,17 +418,18 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         };
         Share.prototype._renderShareItems = function () {
             var _this = this;
-            var shareItems = this.shareItems;
+            var shareServices = this.shareItems;
+            var items = shareServices.items;
             var shareIcons = CSS.shareModal.main.mainShare.shareIcons;
             // Assign class names of icons to share item
-            shareItems.items.forEach(function (shareItem) {
+            items.forEach(function (shareItem) {
                 for (var key in shareIcons) {
                     if (key === shareItem.id) {
                         shareItem.className = shareIcons[shareItem.id];
                     }
                 }
             });
-            return shareItems
+            return shareServices
                 .toArray()
                 .map(function (shareItems) { return _this._renderShareItem(shareItems); });
         };

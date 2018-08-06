@@ -46,6 +46,11 @@ import ShareItem = require("./Share/ShareItem");
 // ShareFeatures
 import ShareFeatures = require("./Share/ShareFeatures");
 
+import PortalItem = require("esri/portal/PortalItem");
+
+// ShareItemCollection Interface types 'items' property
+import { ShareItemCollection } from "./Interfaces";
+
 //----------------------------------
 //
 //  CSS Classes
@@ -388,7 +393,7 @@ class Share extends declared(Widget) {
     const node = event.currentTarget as Element;
     const shareItem = node["data-share-item"] as ShareItem;
     const { urlTemplate } = shareItem;
-    const portalItem = this.get("view.map.portalItem");
+    const portalItem: PortalItem = this.get("view.map.portalItem");
     const title = portalItem
       ? substitute({ title: portalItem.title }, i18n.urlTitle)
       : null;
@@ -639,17 +644,18 @@ class Share extends declared(Widget) {
   }
 
   private _renderShareItems(): any[] {
-    const { shareItems } = this;
+    const shareServices = this.shareItems as ShareItemCollection;
+    const { items } = shareServices;
     const { shareIcons } = CSS.shareModal.main.mainShare;
     // Assign class names of icons to share item
-    shareItems.items.forEach((shareItem: any) => {
+    items.forEach((shareItem: any) => {
       for (const key in shareIcons) {
         if (key === shareItem.id) {
           shareItem.className = shareIcons[shareItem.id];
         }
       }
     });
-    return shareItems
+    return shareServices
       .toArray()
       .map(shareItems => this._renderShareItem(shareItems));
   }

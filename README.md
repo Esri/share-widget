@@ -17,8 +17,9 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
     - Shorten URL
     - Embed Map
 
-_Note: Share Dialog View uses Calcite Web as a dependency._
-Link to Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
+***Note:** Share Widget View uses Esri's Calcite Web as a dependency.*
+
+Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ## Share Widget
 
@@ -65,7 +66,7 @@ Link to Calcite Web Documentation: https://esri.github.io/calcite-web/documentat
 | embedMap        | boolean | Set value to `false` to toggle Embed Map feature off.    |
 | shortenLink     | boolean | Set value to `false` to toggle shorten link feature off. |
 
-**\*Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.\*
+**Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.\*
 
 ### **Examples:**
 

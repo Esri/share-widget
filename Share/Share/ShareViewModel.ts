@@ -11,8 +11,7 @@ import promiseUtils = require("esri/core/promiseUtils");
 import {
   subclass,
   declared,
-  property,
-  aliasOf
+  property
 } from "esri/core/accessorSupport/decorators";
 
 // esri.views
@@ -295,10 +294,10 @@ class ShareViewModel extends declared(Accessor) {
           ? "&"
           : "";
     const shareParams = `${path}${sep}center=${roundedLon},${roundedLat}&level=${roundedZoom}`;
-    const { view } = this;
+    const type = this.get("view.type");
     // Checks if view.type is 3D, if so add, 3D url parameters
-    if (view.type === "3d") {
-      const { camera } = view as SceneView;
+    if (type === "3d") {
+      const { camera } = this.view as SceneView;
       const { heading, fov, tilt } = camera;
       const roundedHeading = this._roundValue(heading);
       const roundedFov = this._roundValue(fov);

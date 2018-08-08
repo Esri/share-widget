@@ -3,13 +3,11 @@
 
 // dojo
 import i18n = require("dojo/i18n!./Share/nls/resources");
-import { SPACE } from "dojo/keys";
 
 // esri.core
 import Collection = require("esri/core/Collection");
-import { substitute } from "esri/core/lang";
 import watchUtils = require("esri/core/watchUtils");
-import Handles = require("esri/core/Handles");
+import { substitute } from "esri/core/lang";
 
 // esri.core.accessorSupport
 import {
@@ -34,9 +32,6 @@ import {
   storeNode
 } from "esri/widgets/support/widget";
 
-// calcite-web
-import Calcite = require("Calcite/calcite-web");
-
 // View Model
 import ShareViewModel = require("./Share/ShareViewModel");
 
@@ -46,10 +41,8 @@ import ShareItem = require("./Share/ShareItem");
 // ShareFeatures
 import ShareFeatures = require("./Share/ShareFeatures");
 
+// PortalItem
 import PortalItem = require("esri/portal/PortalItem");
-
-// ShareItemCollection Interface types 'items' property
-import { ShareItemCollection } from "./Interfaces";
 
 //----------------------------------
 //
@@ -103,11 +96,8 @@ const CSS = {
           twitter: "icon-social-twitter",
           googleplus: "icon-social-google-plus",
           email: "icon-social-contact",
-          instagram: "icon-social-instagram",
           linkedin: "icon-social-linkedin",
           pinterest: "icon-social-pinterest",
-          geonet: "icon-social-geonet",
-          github: "icon-social-github",
           rss: "icon-social-rss"
         }
       },
@@ -116,7 +106,9 @@ const CSS = {
     calciteStyles: {
       modifier: "modifier-class",
       alignRight: "right",
-      active: "is-active",
+      isActive: "is-active",
+      tooltip: "tooltip",
+      tooltipTop: "tooltip-top",
       modal: {
         jsModal: "js-modal",
         jsModalToggle: "js-modal-toggle",
@@ -152,28 +144,15 @@ class Share extends declared(Widget) {
   //
   //----------------------------------
 
-  // Handles
-  private _handles: Handles = new Handles();
+  // Tabs
+  private _linkTabExpanded = true;
+  private _embedTabExpanded = false;
+
+  // Tooltips
+  private _linkCopied = false;
+  private _embedCopied = false;
 
   //  DOM Nodes //
-  // Modal overlay
-  private _modalOverlayNode: HTMLElement = null;
-
-  // Share Modal
-  private _shareModalNode: HTMLElement = null;
-
-  // Copy URL Button & Copy Iframe Button
-  private _copyUrlButtonNode: HTMLElement = null;
-  private _copyIframeButtonNode: HTMLElement = null;
-
-  // Link Tab Node & Link Content Node
-  private _linkTabNode: HTMLElement = null;
-  private _linkContentNode: HTMLElement = null;
-
-  // Embed Tab & Embed Content
-  private _embedTabNode: HTMLElement = null;
-  private _embedContentNode: HTMLElement = null;
-
   // Iframe Node
   private _iframeNode: HTMLIFrameElement = null;
 
@@ -193,7 +172,8 @@ class Share extends declared(Widget) {
   //
   //----------------------------------
 
-  @aliasOf("viewModel.view") view: MapView | SceneView = null;
+  @aliasOf("viewModel.view")
+  view: MapView | SceneView = null;
 
   //----------------------------------
   //
@@ -239,8 +219,10 @@ class Share extends declared(Widget) {
   //
   //----------------------------------
 
-  @property() iconClass = CSS.icons.widgetIcon;
-  @property() label = i18n.widgetLabel;
+  @property()
+  iconClass = CSS.icons.widgetIcon;
+  @property()
+  label = i18n.widgetLabel;
 
   //----------------------------------
   //
@@ -265,18 +247,8 @@ class Share extends declared(Widget) {
   //----------------------------------
 
   postInitialize() {
-    const { embedMap } = this.shareFeatures;
     this.own([
       watchUtils.whenTrue(this, "view.ready", () => {
-        // Initialize calcite-web.js patterns for Modal and Tabs
-        Calcite.modal();
-        if (embedMap) {
-          Calcite.tabs();
-        }
-        this._closeAccessibility();
-        if (embedMap) {
-          this._tabAccessibility();
-        }
         this.own([
           watchUtils.init(this, "shareModalOpened", () => {
             this._detectWidgetToggle();
@@ -287,16 +259,6 @@ class Share extends declared(Widget) {
   }
 
   destroy() {
-    this._handles.removeAll();
-    this._handles = null;
-    this._modalOverlayNode = null;
-    this._shareModalNode = null;
-    this._copyUrlButtonNode = null;
-    this._copyIframeButtonNode = null;
-    this._linkTabNode = null;
-    this._linkContentNode = null;
-    this._embedTabNode = null;
-    this._embedContentNode = null;
     this._iframeNode = null;
     this._iframeInputNode = null;
     this._urlInputNode = null;
@@ -315,7 +277,6 @@ class Share extends declared(Widget) {
           bind={this}
           onclick={this._toggleShareModal}
           onkeydown={this._toggleShareModal}
-          data-modal="share-widget"
         />
         {shareModalNode}
       </div>
@@ -329,15 +290,68 @@ class Share extends declared(Widget) {
 
   private _detectWidgetToggle(): void {
     if (this.shareModalOpened) {
-      this._handles.add(
-        Calcite.bus.emit("modal:open", {
-          id: this._modalOverlayNode.getAttribute("data-modal")
-        })
-      );
       this._generateUrl();
     } else {
+      this._iframeNode = null;
       this._removeCopyTooltips();
     }
+    this.scheduleRender();
+  }
+
+  @accessibleHandler()
+  private _copyUrlInput(): void {
+    this._urlInputNode.focus();
+    this._urlInputNode.select();
+    document.execCommand("copy");
+    this._linkCopied = true;
+    this._embedCopied = false;
+    this.scheduleRender();
+  }
+
+  @accessibleHandler()
+  private _copyIframeInput(): void {
+    this._iframeInputNode.focus();
+    this._iframeInputNode.select();
+    document.execCommand("copy");
+    this._linkCopied = false;
+    this._embedCopied = true;
+    this.scheduleRender();
+  }
+
+  @accessibleHandler()
+  private _linkTab(): void {
+    // Link Tab Option
+    this._linkTabExpanded = true;
+    this._embedTabExpanded = false;
+    this.scheduleRender();
+  }
+
+  @accessibleHandler()
+  private _embedTab(): void {
+    // Embed Tab Option
+    this._linkTabExpanded = false;
+    this._embedTabExpanded = true;
+    this.scheduleRender();
+  }
+
+  @accessibleHandler()
+  private _processShareItem(event: Event): void {
+    const node = event.currentTarget as HTMLElement;
+    const shareItem = node["data-share-item"] as ShareItem;
+    const { urlTemplate } = shareItem;
+    const portalItem = this.get<PortalItem>("view.map.portalItem");
+    const title = portalItem
+      ? substitute({ title: portalItem.title }, i18n.urlTitle)
+      : null;
+    const summary = portalItem
+      ? substitute({ summary: portalItem.snippet }, i18n.urlSummary)
+      : null;
+    this._openUrl(this.shareUrl, title, summary, urlTemplate);
+  }
+
+  @accessibleHandler()
+  private _stopPropagation(e: Event): void {
+    e.stopPropagation();
   }
 
   private _generateUrl(): void {
@@ -357,50 +371,10 @@ class Share extends declared(Widget) {
     });
   }
 
-  @accessibleHandler()
-  private _copyUrlInput(): void {
-    this._urlInputNode.select();
-    document.execCommand("copy");
-    if (this.shareFeatures.embedMap) {
-      Calcite.removeClass(this._copyIframeButtonNode, "tooltip tooltip-top");
-    }
-    Calcite.addClass(this._copyUrlButtonNode, "tooltip tooltip-top");
-  }
-
-  @accessibleHandler()
-  private _copyIframeInput(): void {
-    this._iframeInputNode.select();
-    document.execCommand("copy");
-    Calcite.removeClass(this._copyUrlButtonNode, "tooltip tooltip-top");
-    Calcite.addClass(this._copyIframeButtonNode, "tooltip tooltip-top");
-  }
-
   private _removeCopyTooltips(): void {
-    const { _copyUrlButtonNode, _copyIframeButtonNode } = this;
-    const { embedMap } = this.shareFeatures;
-    if (_copyUrlButtonNode !== null && _copyIframeButtonNode !== null) {
-      Calcite.removeClass(_copyUrlButtonNode, "tooltip tooltip-top");
-      if (embedMap) {
-        this._iframeNode = null;
-        Calcite.removeClass(_copyIframeButtonNode, "tooltip tooltip-top");
-        this.scheduleRender();
-      }
-    }
-  }
-
-  @accessibleHandler()
-  private _processShareItem(event: Event): void {
-    const node = event.currentTarget as Element;
-    const shareItem = node["data-share-item"] as ShareItem;
-    const { urlTemplate } = shareItem;
-    const portalItem: PortalItem = this.get("view.map.portalItem");
-    const title = portalItem
-      ? substitute({ title: portalItem.title }, i18n.urlTitle)
-      : null;
-    const summary = portalItem
-      ? substitute({ summary: portalItem.snippet }, i18n.urlSummary)
-      : null;
-    this._openUrl(this.shareUrl, title, summary, urlTemplate);
+    this._linkCopied = false;
+    this._embedCopied = false;
+    this.scheduleRender();
   }
 
   private _openUrl(
@@ -420,109 +394,23 @@ class Share extends declared(Widget) {
     window.open(urlToOpen);
   }
 
-  private _tabAccessibility(): void {
-    // ***** Calcite Tabs Accessibility *****
-    // Allows to select focused tab option with Spacebar
-    this._handles.add([
-      Calcite.addEvent(this._linkTabNode, "keydown", (event: KeyboardEvent) => {
-        const { keyCode } = event;
-        //  When user focuses on tab option and presses Spacebar: 'aria-expanded' attribute and 'is-active' class toggled accordingly
-        if (keyCode === SPACE) {
-          // Link Tab Option
-          Calcite.addClass(this._linkTabNode, "is-active");
-          Calcite.removeClass(this._embedTabNode, "is-active");
-          this._linkTabNode.setAttribute("aria-expanded", "true");
-          this._embedTabNode.setAttribute("aria-expanded", "false");
-
-          // Link Tab Content
-          Calcite.addClass(this._linkContentNode, "is-active");
-          Calcite.removeClass(this._embedContentNode, "is-active");
-          this._linkContentNode.setAttribute("aria-expanded", "true");
-          this._embedContentNode.setAttribute("aria-expanded", "false");
-        }
-      }),
-      Calcite.addEvent(
-        this._embedTabNode,
-        "keydown",
-        (event: KeyboardEvent) => {
-          const { keyCode } = event;
-          if (keyCode === SPACE) {
-            // Embed Tab Option
-            Calcite.addClass(this._embedTabNode, "is-active");
-            Calcite.removeClass(this._linkTabNode, "is-active");
-            this._embedTabNode.setAttribute("aria-expanded", "true");
-            this._linkTabNode.setAttribute("aria-expanded", "false");
-
-            // Embed Tab Content
-            this._embedContentNode.setAttribute("aria-expanded", "true");
-            this._linkContentNode.setAttribute("aria-expanded", "false");
-            Calcite.addClass(this._embedContentNode, "is-active");
-            Calcite.removeClass(this._linkContentNode, "is-active");
-          }
-        }
-      )
-    ]);
-  }
-
-  private _closeAccessibility(): void {
-    const { embedMap, copyToClipboard } = this.shareFeatures;
-    this._handles.add([
-      // *** CLOSE MODAL ***
-      // Sets _iframeNode and shareModalOpened to null when user uses escape key to exit modal
-      Calcite.bus.on("keyboard:escape", () => {
-        this.shareModalOpened = false;
-        if (copyToClipboard) {
-          Calcite.removeClass(this._copyUrlButtonNode, "tooltip tooltip-top");
-        }
-        if (embedMap) {
-          this._iframeNode = null;
-          Calcite.removeClass(
-            this._copyIframeButtonNode,
-            "tooltip tooltip-top"
-          );
-        }
-        this.scheduleRender();
-      }),
-      // Allows user to click overlay to close Share Modal
-      Calcite.addEvent(this._modalOverlayNode, "click", () => {
-        this.shareModalOpened = false;
-        if (embedMap) {
-          this._iframeNode = null;
-          if (copyToClipboard) {
-            Calcite.removeClass(this._copyUrlButtonNode, "tooltip tooltip-top");
-          }
-
-          Calcite.removeClass(
-            this._copyIframeButtonNode,
-            "tooltip tooltip-top"
-          );
-        }
-        this.scheduleRender();
-        Calcite.bus.emit("modal:close", {
-          id: this._modalOverlayNode.getAttribute("data-modal")
-        });
-      }),
-      // Prevents event bubbling up to parent container when modal is clicked
-      Calcite.addEvent(this._shareModalNode, "click", (event: Event) => {
-        event.stopPropagation();
-      })
-    ]);
-  }
-
   // Render Nodes
   private _renderShareModal(): any {
     const modalContainerNode = this._renderModalContainer();
+    const shareModalClass = {
+      [CSS.shareModal.calciteStyles.isActive]: this.shareModalOpened
+    };
     return (
       <div
         class={this.classes(
           CSS.shareModal.calciteStyles.modal.jsModal,
           CSS.shareModal.calciteStyles.modal.modalOverlay,
-          CSS.shareModal.calciteStyles.modifier
+          CSS.shareModal.calciteStyles.modifier,
+          shareModalClass
         )}
         bind={this}
-        afterCreate={storeNode}
-        data-node-ref="_modalOverlayNode"
-        data-modal="share-widget"
+        onclick={this._toggleShareModal}
+        onkeydown={this._toggleShareModal}
       >
         {modalContainerNode}
       </div>
@@ -540,10 +428,11 @@ class Share extends declared(Widget) {
         role="dialog"
         tabIndex={0}
         bind={this}
-        afterCreate={storeNode}
-        data-node-ref="_shareModalNode"
+        onclick={this._stopPropagation}
+        onkeydown={this._stopPropagation}
       >
         <h1 class={CSS.shareModal.header.heading}>{i18n.heading}</h1>
+        {modalContentNode}
         <a
           bind={this}
           onclick={this._toggleShareModal}
@@ -555,6 +444,7 @@ class Share extends declared(Widget) {
           )}
           aria-label="close-modal"
           role="button"
+          tabIndex={0}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -566,15 +456,20 @@ class Share extends declared(Widget) {
             <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z" />
           </svg>
         </a>
-        {modalContentNode}
       </div>
     );
   }
 
   private _renderModalContent(): any {
     const { embedMap } = this.shareFeatures;
-    const embedMapContentNode = this._renderEmbedMapContent();
     const sendALinkContentNode = this._renderSendALinkContent();
+    const embedMapContentNode = this._renderEmbedMapContent();
+    const linkTabClass = {
+      [CSS.shareModal.calciteStyles.isActive]: this._linkTabExpanded
+    };
+    const embedTabClass = {
+      [CSS.shareModal.calciteStyles.isActive]: this._embedTabExpanded
+    };
     return (
       <div class={CSS.shareModal.main.mainContainer}>
         <div
@@ -588,12 +483,14 @@ class Share extends declared(Widget) {
               <a
                 class={this.classes(
                   CSS.shareModal.calciteStyles.tabs.tabTitle,
-                  CSS.shareModal.calciteStyles.active,
-                  CSS.shareModal.calciteStyles.tabs.jsTab
+                  CSS.shareModal.calciteStyles.tabs.jsTab,
+                  linkTabClass
                 )}
                 bind={this}
-                data-node-ref="_linkTabNode"
-                afterCreate={storeNode}
+                tabIndex={0}
+                onclick={this._linkTab}
+                onkeydown={this._linkTab}
+                aria-expanded={`${this._linkTabExpanded}`}
               >
                 {i18n.sendLink}
               </a>
@@ -601,11 +498,14 @@ class Share extends declared(Widget) {
                 <a
                   class={this.classes(
                     CSS.shareModal.calciteStyles.tabs.tabTitle,
-                    CSS.shareModal.calciteStyles.tabs.jsTab
+                    CSS.shareModal.calciteStyles.tabs.jsTab,
+                    embedTabClass
                   )}
                   bind={this}
-                  data-node-ref="_embedTabNode"
-                  afterCreate={storeNode}
+                  tabIndex={0}
+                  onclick={this._embedTab}
+                  onkeydown={this._embedTab}
+                  aria-expanded={`${this._embedTabExpanded}`}
                 >
                   {i18n.embedMap}
                 </a>
@@ -644,17 +544,17 @@ class Share extends declared(Widget) {
   }
 
   private _renderShareItems(): any[] {
-    const shareServices = this.shareItems as ShareItemCollection;
-    const { items } = shareServices;
+    const shareServices = this.shareItems;
     const { shareIcons } = CSS.shareModal.main.mainShare;
     // Assign class names of icons to share item
-    items.forEach((shareItem: any) => {
-      for (const key in shareIcons) {
-        if (key === shareItem.id) {
+    shareServices.forEach((shareItem: ShareItem) => {
+      for (const icon in shareIcons) {
+        if (icon === shareItem.id) {
           shareItem.className = shareIcons[shareItem.id];
         }
       }
     });
+
     return shareServices
       .toArray()
       .map(shareItems => this._renderShareItem(shareItems));
@@ -688,6 +588,10 @@ class Share extends declared(Widget) {
 
   private _renderCopyUrl(): any {
     const { copyToClipboard } = this.shareFeatures;
+    const toolTipClasses = {
+      [CSS.shareModal.calciteStyles.tooltip]: this._linkCopied,
+      [CSS.shareModal.calciteStyles.tooltipTop]: this._linkCopied
+    };
     return (
       <div>
         {copyToClipboard ? (
@@ -699,14 +603,15 @@ class Share extends declared(Widget) {
               <h2 class={CSS.shareModal.main.mainHeader}>{i18n.clipboard}</h2>
               <div class={CSS.shareModal.main.mainCopy.copyClipboardContainer}>
                 <div
-                  class={CSS.shareModal.main.mainCopy.copyClipboardUrl}
+                  class={this.classes(
+                    CSS.shareModal.main.mainCopy.copyClipboardUrl,
+                    toolTipClasses
+                  )}
                   bind={this}
                   onclick={this._copyUrlInput}
                   onkeydown={this._copyUrlInput}
                   role="button"
                   tabIndex={0}
-                  data-node-ref="_copyUrlButtonNode"
-                  afterCreate={storeNode}
                   aria-label="Copied"
                 >
                   <svg
@@ -741,17 +646,19 @@ class Share extends declared(Widget) {
     const shareServicesNode = this._renderShareItemContainer();
     const { shareServices, copyToClipboard } = this.shareFeatures;
     const { state } = this.viewModel;
+    const linkContentClass = {
+      [CSS.shareModal.calciteStyles.isActive]: this._linkTabExpanded
+    };
     return (
       <article
         class={this.classes(
           CSS.shareModal.calciteStyles.tabs.tabSection,
           CSS.shareModal.calciteStyles.tabs.jsTabSection,
-          CSS.shareModal.calciteStyles.active,
-          CSS.shareModal.shareTabStyles.tabSection
+          CSS.shareModal.shareTabStyles.tabSection,
+          linkContentClass
         )}
         bind={this}
-        data-node-ref="_linkContentNode"
-        afterCreate={storeNode}
+        aria-expanded={`${this._linkTabExpanded}`}
       >
         {state === "ready" ? (
           <div>
@@ -770,17 +677,22 @@ class Share extends declared(Widget) {
 
   private _renderCopyIframe(): any {
     const { embedCode, state } = this.viewModel;
+    const toolTipClasses = {
+      [CSS.shareModal.calciteStyles.tooltip]: this._embedCopied,
+      [CSS.shareModal.calciteStyles.tooltipTop]: this._embedCopied
+    };
     return (
       <div class={CSS.shareModal.shareIframe.iframeInputContainer}>
         <div
-          class={CSS.shareModal.main.mainCopy.copyClipboardIframe}
+          class={this.classes(
+            CSS.shareModal.main.mainCopy.copyClipboardIframe,
+            toolTipClasses
+          )}
           bind={this}
           onclick={this._copyIframeInput}
           onkeydown={this._copyIframeInput}
           role="button"
           aria-label="Copied"
-          data-node-ref="_copyIframeButtonNode"
-          afterCreate={storeNode}
           tabIndex={0}
           readOnly
         >
@@ -819,6 +731,9 @@ class Share extends declared(Widget) {
     const { embedMap } = this.shareFeatures;
     const { state } = this.viewModel;
     const copyIframeCodeNode = this._renderCopyIframe();
+    const embedContentClass = {
+      [CSS.shareModal.calciteStyles.isActive]: this._embedTabExpanded
+    };
     return (
       <div>
         {embedMap ? (
@@ -827,11 +742,11 @@ class Share extends declared(Widget) {
               CSS.shareModal.calciteStyles.tabs.tabSection,
               CSS.shareModal.calciteStyles.tabs.jsTabSection,
               CSS.shareModal.shareTabStyles.tabSection,
-              CSS.shareModal.shareTabStyles.iframeTab
+              CSS.shareModal.shareTabStyles.iframeTab,
+              embedContentClass
             )}
             bind={this}
-            data-node-ref="_embedContentNode"
-            afterCreate={storeNode}
+            aria-expanded={`${this._embedTabExpanded}`}
           >
             {state === "ready" ? (
               <div

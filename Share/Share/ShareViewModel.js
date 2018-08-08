@@ -247,10 +247,10 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
                     ? "&"
                     : "";
             var shareParams = "" + path + sep + "center=" + roundedLon + "," + roundedLat + "&level=" + roundedZoom;
-            var view = this.view;
+            var type = this.get("view.type");
             // Checks if view.type is 3D, if so add, 3D url parameters
-            if (view.type === "3d") {
-                var camera = view.camera;
+            if (type === "3d") {
+                var camera = this.view.camera;
                 var heading = camera.heading, fov = camera.fov, tilt = camera.tilt;
                 var roundedHeading = this._roundValue(heading);
                 var roundedFov = this._roundValue(fov);

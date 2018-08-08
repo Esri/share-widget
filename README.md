@@ -17,7 +17,7 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
     - Shorten URL
     - Embed Map
 
-***Note:** Share Widget View uses Esri's Calcite Web as a dependency.*
+***Note:** Share Widget uses Esri's Calcite CSS Styles.*
 
 Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 

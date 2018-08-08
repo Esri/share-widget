@@ -153,9 +153,6 @@ class Share extends declared(Widget) {
   private _embedCopied = false;
 
   //  DOM Nodes //
-  // Iframe Node
-  private _iframeNode: HTMLIFrameElement = null;
-
   // URL Input & Iframe Input
   private _iframeInputNode: HTMLInputElement = null;
   private _urlInputNode: HTMLInputElement = null;
@@ -259,7 +256,6 @@ class Share extends declared(Widget) {
   }
 
   destroy() {
-    this._iframeNode = null;
     this._iframeInputNode = null;
     this._urlInputNode = null;
   }
@@ -292,7 +288,6 @@ class Share extends declared(Widget) {
     if (this.shareModalOpened) {
       this._generateUrl();
     } else {
-      this._iframeNode = null;
       this._removeCopyTooltips();
     }
     this.scheduleRender();
@@ -355,20 +350,7 @@ class Share extends declared(Widget) {
   }
 
   private _generateUrl(): void {
-    const { embedMap } = this.shareFeatures;
-    this.viewModel.generateUrl().then(() => {
-      if (embedMap) {
-        this._iframeNode = (
-          <iframe
-            class={CSS.shareModal.shareIframe.iframePreview}
-            src={this.shareUrl}
-            tabIndex="-1"
-            scrolling="no"
-          />
-        ) as HTMLIFrameElement;
-        this.scheduleRender();
-      }
-    });
+    this.viewModel.generateUrl();
   }
 
   private _removeCopyTooltips(): void {
@@ -756,11 +738,16 @@ class Share extends declared(Widget) {
                 <h2 class={CSS.shareModal.main.mainHeader}>{i18n.clipboard}</h2>
                 {copyIframeCodeNode}
                 <div class={CSS.shareModal.shareIframe.iframeContainer}>
-                  {embedMap
-                    ? state === "ready"
-                      ? this._iframeNode
-                      : null
-                    : null}
+                  {embedMap ? (
+                    state === "ready" ? (
+                      <iframe
+                        class={CSS.shareModal.shareIframe.iframePreview}
+                        src={this.shareUrl}
+                        tabIndex="-1"
+                        scrolling="no"
+                      />
+                    ) : null
+                  ) : null}
                 </div>
               </div>
             ) : (

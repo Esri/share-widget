@@ -124,8 +124,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             _this._linkCopied = false;
             _this._embedCopied = false;
             //  DOM Nodes //
-            // Iframe Node
-            _this._iframeNode = null;
             // URL Input & Iframe Input
             _this._iframeInputNode = null;
             _this._urlInputNode = null;
@@ -197,7 +195,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             ]);
         };
         Share.prototype.destroy = function () {
-            this._iframeNode = null;
             this._iframeInputNode = null;
             this._urlInputNode = null;
         };
@@ -215,7 +212,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
                 this._generateUrl();
             }
             else {
-                this._iframeNode = null;
                 this._removeCopyTooltips();
             }
             this.scheduleRender();
@@ -265,14 +261,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             e.stopPropagation();
         };
         Share.prototype._generateUrl = function () {
-            var _this = this;
-            var embedMap = this.shareFeatures.embedMap;
-            this.viewModel.generateUrl().then(function () {
-                if (embedMap) {
-                    _this._iframeNode = (widget_1.tsx("iframe", { class: CSS.shareModal.shareIframe.iframePreview, src: _this.shareUrl, tabIndex: "-1", scrolling: "no" }));
-                    _this.scheduleRender();
-                }
-            });
+            this.viewModel.generateUrl();
         };
         Share.prototype._removeCopyTooltips = function () {
             this._linkCopied = false;
@@ -412,11 +401,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             return (widget_1.tsx("div", null, embedMap ? (widget_1.tsx("article", { class: this.classes(CSS.shareModal.calciteStyles.tabs.tabSection, CSS.shareModal.calciteStyles.tabs.jsTabSection, CSS.shareModal.shareTabStyles.tabSection, CSS.shareModal.shareTabStyles.iframeTab, embedContentClass), bind: this, "aria-expanded": "" + this._embedTabExpanded }, state === "ready" ? (widget_1.tsx("div", { key: "iframe-tab-section-container", class: CSS.shareModal.shareIframe.iframeTabSectionContainer },
                 widget_1.tsx("h2", { class: CSS.shareModal.main.mainHeader }, i18n.clipboard),
                 copyIframeCodeNode,
-                widget_1.tsx("div", { class: CSS.shareModal.shareIframe.iframeContainer }, embedMap
-                    ? state === "ready"
-                        ? this._iframeNode
-                        : null
-                    : null))) : (widget_1.tsx("div", { class: CSS.icons.esriLoader })))) : null));
+                widget_1.tsx("div", { class: CSS.shareModal.shareIframe.iframeContainer }, embedMap ? (state === "ready" ? (widget_1.tsx("iframe", { class: CSS.shareModal.shareIframe.iframePreview, src: this.shareUrl, tabIndex: "-1", scrolling: "no" })) : null) : null))) : (widget_1.tsx("div", { class: CSS.icons.esriLoader })))) : null));
             var _a;
         };
         __decorate([

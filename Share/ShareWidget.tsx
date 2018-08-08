@@ -740,12 +740,14 @@ class Share extends declared(Widget) {
                 <div class={CSS.shareModal.shareIframe.iframeContainer}>
                   {embedMap ? (
                     state === "ready" ? (
-                      <iframe
-                        class={CSS.shareModal.shareIframe.iframePreview}
-                        src={this.shareUrl}
-                        tabIndex="-1"
-                        scrolling="no"
-                      />
+                      this.shareModalOpened ? (
+                        <iframe
+                          class={CSS.shareModal.shareIframe.iframePreview}
+                          src={this.shareUrl}
+                          tabIndex="-1"
+                          scrolling="no"
+                        />
+                      ) : null
                     ) : null
                   ) : null}
                 </div>

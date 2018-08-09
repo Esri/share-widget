@@ -4,6 +4,9 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
 
 ![App](https://github.com/ArcGIS/share-widget/blob/master/images/share-link.png)​
 
+Link to repository of sample Web Map Application using Share Widget:
+https://github.com/rslibed/share-widget
+
 ## Features:
 
 1.  `MapView` and `SceneView` compatability
@@ -22,9 +25,6 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
 ***Note:** Share Widget uses Esri's Calcite CSS Styles.*
 
 Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
-
-Link to repository of sample Web Map Application using Share Widget:
-https://github.com/rslibed/share-widget
 
 ## Share Widget
 

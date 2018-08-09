@@ -21,6 +21,9 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
 
 Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
+Link to repository of sample Web Map Application using Share Widget:
+https://github.com/rslibed/share-widget
+
 ## Share Widget
 
 ### Constructor:

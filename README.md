@@ -2,7 +2,7 @@
 
 Share widget built for version 4.x of the ArcGIS API for Javascript
 
-![App](https://github.com/ArcGIS/share-widget/blob/master/images/share-link.png)​
+![share-widget](https://github.com/ArcGIS/share-widget/blob/master/images/share-link.png)​
 
 Link to repository of sample Web Map Application using Share Widget:
 https://github.com/rslibed/share-widget

@@ -2,7 +2,9 @@
 
 Share widget built for version 4.x of the ArcGIS API for Javascript
 
-#### Features:
+![App](https://github.com/ArcGIS/share-widget/blob/master/images/share-link.png)​
+
+## Features:
 
 1.  Compatible with both `MapView` and `SceneView`
 2.  Share map via URL
@@ -117,3 +119,31 @@ const share = new ShareWidget({
   shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN];
 });
 ```
+
+## Issues
+
+Find a bug or want to request a new feature?  Please let us know by submitting an issue.
+
+## Contributing
+
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
+
+## Licensing
+Copyright 2016 Esri
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+A copy of the license is available in the repository's [LICENSE](https://github.com/ArcGIS/share-widget/blob/master/LICENSE) file.
+
+[](Esri Tags: ArcGIS Web Mapping QuickStart)
+[](Esri Language: JavaScript)​

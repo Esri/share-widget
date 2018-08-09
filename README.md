@@ -150,6 +150,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's [LICENSE](https://github.com/ArcGIS/share-widget/blob/master/LICENSE) file.
-
-[](Esri Tags: ArcGIS Web Mapping QuickStart)
-[](Esri Language: JavaScript)​

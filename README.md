@@ -6,7 +6,7 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
 
 ## Features:
 
-1.  Compatible with both `MapView` and `SceneView`
+1.  `MapView` and `SceneView` compatability
 2.  Share map via URL
 3.  Embed map with Iframe code
 4.  Share item services, i.e. social media or e-mail
@@ -119,6 +119,12 @@ const share = new ShareWidget({
   shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN];
 });
 ```
+
+## Resources
+
+* [ArcGIS for JavaScript API Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
+* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+* [twitter@esri](http://twitter.com/esri)
 
 ## Issues
 

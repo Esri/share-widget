@@ -128,11 +128,13 @@ const CSS = {
   },
   icons: {
     widgetIcon: "esri-icon-share",
-    svgIcon: "svg-icon",
     shortenIcon: "esri-share__shorten-icon",
     esriRotatingIcon: "esri-share--esri-rotating",
-    copyIcon: "esri-share__copy-icon",
-    esriLoader: "esri-share__loader"
+    copyIconContainer: "esri-share__copy-icon-container",
+    copy: "esri-share__copy-icon",
+    esriLoader: "esri-share__loader",
+    closeIcon: "icon-ui-close",
+    copyToClipboardIcon: "icon-ui-duplicate"
   }
 };
 
@@ -407,37 +409,26 @@ class Share extends declared(Widget) {
           CSS.shareModalStyles,
           CSS.shareModal.calciteStyles.modal.modalContent
         )}
-        role="dialog"
         tabIndex={0}
         bind={this}
         onclick={this._stopPropagation}
         onkeydown={this._stopPropagation}
       >
         <h1 class={CSS.shareModal.header.heading}>{i18n.heading}</h1>
-        {modalContentNode}
-        <a
+        <div>{modalContentNode}</div>
+        <div
           bind={this}
           onclick={this._toggleShareModal}
           onkeydown={this._toggleShareModal}
           class={this.classes(
             CSS.shareModal.calciteStyles.modal.jsModalToggle,
             CSS.shareModal.calciteStyles.alignRight,
-            CSS.shareModal.close
+            CSS.shareModal.close,
+            CSS.icons.closeIcon
           )}
           aria-label="close-modal"
-          role="button"
           tabIndex={0}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="21"
-            viewBox="0 0 32 32"
-            class={CSS.icons.svgIcon}
-          >
-            <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z" />
-          </svg>
-        </a>
+        />
       </div>
     );
   }
@@ -462,7 +453,7 @@ class Share extends declared(Widget) {
         >
           {embedMap ? (
             <nav class={CSS.shareModal.calciteStyles.tabs.tabNav}>
-              <a
+              <div
                 class={this.classes(
                   CSS.shareModal.calciteStyles.tabs.tabTitle,
                   CSS.shareModal.calciteStyles.tabs.jsTab,
@@ -475,9 +466,9 @@ class Share extends declared(Widget) {
                 aria-expanded={`${this._linkTabExpanded}`}
               >
                 {i18n.sendLink}
-              </a>
+              </div>
               {embedMap ? (
-                <a
+                <div
                   class={this.classes(
                     CSS.shareModal.calciteStyles.tabs.tabTitle,
                     CSS.shareModal.calciteStyles.tabs.jsTab,
@@ -490,7 +481,7 @@ class Share extends declared(Widget) {
                   aria-expanded={`${this._embedTabExpanded}`}
                 >
                   {i18n.embedMap}
-                </a>
+                </div>
               ) : null}
             </nav>
           ) : null}
@@ -510,16 +501,16 @@ class Share extends declared(Widget) {
         class={this.classes(CSS.shareModal.main.mainShare.shareItem, name)}
         key={name}
       >
-        <span
+        <div
           class={className}
           title={name}
           onclick={this._processShareItem}
           onkeydown={this._processShareItem}
-          role="button"
           tabIndex={0}
           aria-label={name}
           bind={this}
           data-share-item={shareItem}
+          role="button"
         />
       </div>
     );
@@ -592,19 +583,16 @@ class Share extends declared(Widget) {
                   bind={this}
                   onclick={this._copyUrlInput}
                   onkeydown={this._copyUrlInput}
-                  role="button"
                   tabIndex={0}
-                  aria-label="Copied"
+                  aria-label={i18n.copied}
+                  role="button"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    class={this.classes(CSS.icons.svgIcon, CSS.icons.copyIcon)}
-                  >
-                    <path d="M22.801 0H10v6H2v26h20v-6h8V7.199L22.801 0zM20 24v6H4V8h8v8h8v8zm0-10h-6V8h.621L20 13.381V14zm8 10h-6V13.199L14.801 6H12V2h8v8h8v14zm0-16h-6V2h.621L28 7.381V8zM6 26h12v2H6v-2zm0-4h12v2H6v-2zm0-4h12v2H6v-2zm0-4h4v2H6v-2z" />
-                  </svg>
+                  <div
+                    class={this.classes(
+                      CSS.icons.copy,
+                      CSS.icons.copyToClipboardIcon
+                    )}
+                  />
                 </div>
                 <input
                   type="text"
@@ -673,20 +661,14 @@ class Share extends declared(Widget) {
           bind={this}
           onclick={this._copyIframeInput}
           onkeydown={this._copyIframeInput}
-          role="button"
-          aria-label="Copied"
+          aria-label={i18n.copied}
           tabIndex={0}
           readOnly
+          role="button"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            class={this.classes(CSS.icons.svgIcon, CSS.icons.copyIcon)}
-          >
-            <path d="M22.801 0H10v6H2v26h20v-6h8V7.199L22.801 0zM20 24v6H4V8h8v8h8v8zm0-10h-6V8h.621L20 13.381V14zm8 10h-6V13.199L14.801 6H12V2h8v8h8v14zm0-16h-6V2h.621L28 7.381V8zM6 26h12v2H6v-2zm0-4h12v2H6v-2zm0-4h12v2H6v-2zm0-4h4v2H6v-2z" />
-          </svg>
+          <div
+            class={this.classes(CSS.icons.copyToClipboardIcon, CSS.icons.copy)}
+          />
         </div>
 
         {state === "ready" ? (

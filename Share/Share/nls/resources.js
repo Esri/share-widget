@@ -7,7 +7,8 @@ define({
     widgetLabel: "Share",
     clipboard: "Copy to clipboard",
     sendLink: "Send a link",
-    embedMap: "Embed map"
+    embedMap: "Embed map",
+    copied: "Copied"
   },
   ja: 1
 });

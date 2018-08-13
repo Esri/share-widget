@@ -24,7 +24,7 @@ $icon-width: 20px;
   background-image: url(../assets/loader-ie9.gif);
 }
 
-.esri-share__iframe-container,
+.copy-icon .esri-share__iframe-container,
 .esri-share__iframe-preview {
   border: none;
   width: 100%;
@@ -37,6 +37,12 @@ $icon-width: 20px;
 
 .esri-share__iframe-preview {
   height: 100%;
+}
+
+.esri-share__copy-icon {
+  text-align: center;
+  width: 15px;
+  margin: 0 auto;
 }
 
 .esri-share__url-input,
@@ -139,7 +145,7 @@ $icon-width: 20px;
             transition-duration: 200ms;
             transition-timing-function: linear;
             transition-delay: initial;
-            .esri-share__copy-icon,
+            .esri-share__copy-icon-container,
             .esri-share__shorten-icon {
               display: inline-block;
               width: $icon-width;

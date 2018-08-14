@@ -298,7 +298,7 @@ class Share extends declared(Widget) {
   @accessibleHandler()
   private _copyUrlInput(): void {
     this._urlInputNode.focus();
-    this._urlInputNode.select();
+    this._urlInputNode.setSelectionRange(0, this._urlInputNode.value.length);
     document.execCommand("copy");
     this._linkCopied = true;
     this._embedCopied = false;
@@ -308,7 +308,10 @@ class Share extends declared(Widget) {
   @accessibleHandler()
   private _copyIframeInput(): void {
     this._iframeInputNode.focus();
-    this._iframeInputNode.select();
+    this._iframeInputNode.setSelectionRange(
+      0,
+      this._iframeInputNode.value.length
+    );
     document.execCommand("copy");
     this._linkCopied = false;
     this._embedCopied = true;
@@ -663,7 +666,6 @@ class Share extends declared(Widget) {
           onkeydown={this._copyIframeInput}
           aria-label={i18n.copied}
           tabIndex={0}
-          readOnly
           role="button"
         >
           <div

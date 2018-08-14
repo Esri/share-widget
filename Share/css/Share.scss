@@ -11,7 +11,7 @@ $modal-button-background-color: rgba(0, 0, 0, 0.45);
 $share-button-background-color: #fff;
 $share-button-text-color: #6e6e6e;
 $input-font-size: 0.9375rem;
-$iframe-container-height: 300px;
+$iframe-container-height: 88%;
 $subheading-font-size: 0.85em;
 $icon-width: 20px;
 .esri-share__loader {
@@ -43,6 +43,10 @@ $icon-width: 20px;
   text-align: center;
   width: 15px;
   margin: 0 auto;
+}
+
+.esri-share__embed-content-container {
+  height: 100%;
 }
 
 .esri-share__url-input,
@@ -120,6 +124,7 @@ $icon-width: 20px;
     .esri-share__close {
       position: absolute;
       top: 5px;
+      right: 8px;
     }
     .esri-share__close:hover {
       cursor: pointer;
@@ -215,7 +220,8 @@ html[dir="rtl"] {
   .esri-share {
     .esri-share__share-modal {
       .esri-share__close {
-        left: 8px;
+        left: 0;
+        right: auto;
       }
       .esri-share__main-container {
         .esri-share__main-header {
@@ -273,15 +279,9 @@ html[dir="rtl"] {
     .tab-contents {
       height: 100%;
       .esri-share__iframe-tab-section {
-        height: 100%;
+        height: 89vh;
         .esri-share__iframe-tab-section-container {
           height: 100%;
-          .esri-share__iframe-container {
-            height: 100%;
-            .esri-share__iframe-preview {
-              height: 100%;
-            }
-          }
         }
       }
     }
@@ -290,7 +290,7 @@ html[dir="rtl"] {
 
 @media screen and (max-height: 830px) {
   .esri-share__main-container {
-    height: 80.5%;
+    height: 95%;
   }
 }
 
@@ -301,7 +301,34 @@ html[dir="rtl"] {
 }
 
 @media screen and (max-height: 568px) {
-  .esri-share__main-container {
-    height: 77%;
+  .esri-share__iframe-container {
+    height: 75%
+  }
+}
+
+@media screen and (max-height: 640px) {
+  .esri-share__iframe-container {
+    height: 85%
+  }
+}
+
+@media screen and (max-width: 824px) and (orientation: landscape) {
+  .esri-share__iframe-tab-section-container {
+    height: 65%;
+  }
+  .esri-share__embed-content-container {
+    height: 100vh;
+  }
+  .esri-share__iframe-tab-section {
+    height: 100vh;
+  }
+  .esri-share__iframe-container {
+    height: 88%
+  }
+}
+
+@media screen and (min-height: 812px) {
+  .esri-share__iframe-container {
+    height: 92%
   }
 }

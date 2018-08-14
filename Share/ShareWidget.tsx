@@ -61,7 +61,8 @@ const CSS = {
       iframeTabSectionContainer: "esri-share__iframe-tab-section-container",
       iframeInputContainer: "esri-share__iframe-input-container",
       iframePreview: "esri-share__iframe-preview",
-      iframeInput: "esri-share__iframe-input"
+      iframeInput: "esri-share__iframe-input",
+      embedContentContainer: "esri-share__embed-content-container"
     },
     shareTabStyles: {
       tabSection: "esri-share__tab-section",
@@ -105,7 +106,6 @@ const CSS = {
     },
     calciteStyles: {
       modifier: "modifier-class",
-      alignRight: "right",
       isActive: "is-active",
       tooltip: "tooltip",
       tooltipTop: "tooltip-top",
@@ -425,7 +425,6 @@ class Share extends declared(Widget) {
           onkeydown={this._toggleShareModal}
           class={this.classes(
             CSS.shareModal.calciteStyles.modal.jsModalToggle,
-            CSS.shareModal.calciteStyles.alignRight,
             CSS.shareModal.close,
             CSS.icons.closeIcon
           )}
@@ -701,7 +700,7 @@ class Share extends declared(Widget) {
       [CSS.shareModal.calciteStyles.isActive]: this._embedTabExpanded
     };
     return (
-      <div>
+      <div class={CSS.shareModal.shareIframe.embedContentContainer}>
         {embedMap ? (
           <article
             class={this.classes(

@@ -88,7 +88,7 @@ const share = new ShareWidget({
  const PINTEREST_ITEM = new ShareItem({
    id: "pinterest",
    name: "pinterest",
-   className: "icon-social-pinterest"
+   className: "icon-social-pinterest",
    urlTemplate:
      "https://pinterest.com/pin/create/bookmarklet?&url={url}"
  });

@@ -113,7 +113,7 @@ const share = new ShareWidget({
 const share = new ShareWidget({
   view: this.view,
   shareFeatures: shareFeatures,
-  shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN];
+  shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN]
 });
 ```
 

@@ -37,7 +37,6 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 | Property       | Type           | Summary                                             |
 | -------------- | -------------- | --------------------------------------------------- |
 | view           | View           | View which can be set with `MapView` or `SceneView` |
-| container      | HTMLDivElement | document.createElement("div")                       |
 | shareItems?    | []ShareItem    | To be set as array consisting of `ShareItem` class. |
 | shareFeatures? | ShareFeatures  | To be set with `ShareFeatures` class.               |
 
@@ -79,8 +78,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ```
 const share = new ShareWidget({
-    view: this.view,
-    container: document.createElement("div")
+    view: this.view
 });
 ```
 
@@ -114,7 +112,6 @@ const share = new ShareWidget({
 
 const share = new ShareWidget({
   view: this.view,
-  container: document.createElement("div"),
   shareFeatures: shareFeatures,
   shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN];
 });

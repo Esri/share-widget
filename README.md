@@ -26,7 +26,7 @@ https://github.com/rslibed/share-widget
 
 Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
-## Share Widget
+## ShareWidget
 
 ### Constructor:
 

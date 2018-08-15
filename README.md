@@ -42,8 +42,9 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 | shareItems     | []ShareItem    | Array of `ShareItem` class.                         |
 | shareModalOpened| Boolean       | Property to toggle share modal                      |
 | shareUrl       | String         | Share URL of web application. (Read-only)           |
-| view           | MapView \| SceneView | A reference to the MapView or SceneView      |
-| shareViewModel | ShareViewModel | The view model for this widget.                     |
+| viewModel      | ShareViewModel | The view model for this widget.                     |
+| view           | MapView \| SceneView | A reference to the MapView or SceneView       |
+
 
 ## Share Item
 
@@ -55,9 +56,9 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 | Name        | Type   | Summary                                                                            |
 | ----------- | ------ | ---------------------------------------------------------------------------------- |
-| id          | String | Unique ID of share item service i.e. `facebook`, `twitter`, `linkedin`, `email`, etc. |
+| className   | String | Class name of share item icon.                                                          |
+| id          | String | Unique ID of share item service i.e. `facebook`, `twitter`, `linkedin`, `email`, etc.|
 | name        | String | Name of Share Item.                                                                |
-| className   | String | Class name of share icon.                                                          |
 | urlTemplate | String | URL template of share item. Consists of share service URL along with URL parameters i.e `"https://pinterest.com/pin/create/bookmarklet?&url={url}"` |
 
 ## Share Features
@@ -87,8 +88,9 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 | Name            | Type    | Summary                                                  |
 | --------------- | ------- | -------------------------------------------------------- |
+| embedCode       | String  | IFrame Embed Code.                                       |
 | shareFeatures   | ShareFeatures | To be set with `ShareFeatures` class.              |
-| shareItems     | []ShareItem | Array of `ShareItem` class.                           |
+| shareItems      | []ShareItem | Array of `ShareItem` class.                          |
 | shareModalOpened| Boolean | Property to toggle share modal                           |
 | shareUrl        | String  | Share URL of web application.                            |
 | state           | String  | Current state of the widget.                             |
@@ -100,7 +102,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ```
 const share = new Share({
-    view: this.view,
+    view: view,
     container: document.createElement("div")
 });
 ```

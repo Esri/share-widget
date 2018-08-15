@@ -30,7 +30,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ### Constructor:
 
-#### new **ShareWidget(_properties?_)**
+#### new **Share(_properties?_)**
 
 ##### Property Overview:
 
@@ -82,7 +82,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 ##### Default:
 
 ```
-const share = new ShareWidget({
+const share = new Share({
     view: this.view
 });
 ```
@@ -115,7 +115,7 @@ const share = new ShareWidget({
    embedMap: false
  });
 
-const share = new ShareWidget({
+const share = new Share({
   view: this.view,
   shareFeatures: shareFeatures,
   shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN]

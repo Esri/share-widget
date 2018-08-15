@@ -30,7 +30,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ### Constructor:
 
-#### new **Share(_properties?_)**
+#### new **ShareWidget(_properties?_)**
 
 ##### Property Overview:
 
@@ -46,7 +46,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 | view           | MapView \| SceneView | A reference to the `MapView` or `SceneView`       |
 
 
-## Share Item
+## ShareItem
 
 ### Constructor:
 
@@ -61,7 +61,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 | name        | String | Name of Share Item.                                                                |
 | urlTemplate | String | URL template of share item. Consists of share service URL along with URL parameters i.e `"https://pinterest.com/pin/create/bookmarklet?&url={url}"` |
 
-## Share Features
+## ShareFeatures
 
 ### Constructor:
 
@@ -78,7 +78,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 **Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.
 
-## Share View Model
+## ShareViewModel
 
 ### Constructor:
 
@@ -101,7 +101,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 ##### Default:
 
 ```
-const share = new Share({
+const share = new ShareWidget({
     view: view,
     container: document.createElement("div")
 });
@@ -140,7 +140,7 @@ const share = new Share({
     REDDIT_ITEM,
     LINKED_IN
   ]);
-  const share = new Share({
+  const share = new ShareWidget({
     view,
     shareFeatures,
     shareItems

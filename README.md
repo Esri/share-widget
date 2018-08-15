@@ -34,15 +34,15 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Property       | Type           | Summary                                             |
+| Name           | Type           | Summary                                             |
 | -------------- | -------------- | --------------------------------------------------- |
-| view           | View           | View which can be set with `MapView` or `SceneView` |
-| shareItems     | []ShareItem    | To be set as array consisting of `ShareItem` class. |
-| shareFeatures  | ShareFeatures  | To be set with `ShareFeatures` class.               |
-| shareModalOpened| Boolean       | Property to toggle Share Modal                      |
-| shareUrl       | String         | Share URL of web application. (Read-only)           |
-| label          | String         | The widget's default label.                         |
 | iconClass      | String         | The widget's default CSS icon class.                |
+| label          | String         | The widget's default label.                         |
+| shareFeatures  | ShareFeatures  | To be set with `ShareFeatures` class.               |
+| shareItems     | []ShareItem    | Array of `ShareItem` class.                         |
+| shareModalOpened| Boolean       | Property to toggle share modal                      |
+| shareUrl       | String         | Share URL of web application. (Read-only)           |
+| view           | MapView \| SceneView | A reference to the MapView or SceneView      |
 | shareViewModel | ShareViewModel | The view model for this widget.                     |
 
 ## Share Item
@@ -53,12 +53,12 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Property    | Type   | Summary                                                                                                                                              |
-| ----------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id          | string | Unique ID of share item service i.e. `facebook`, `twitter`, `linkedin`, `email`, etc.                                                                |
-| name        | string | Name of Share Item.                                                                                                                                  |
-| className   | string | Class name of share icon.                                                                                                                            |
-| urlTemplate | string | URL template of share item. Consists of share service URL along with URL parameters i.e. `"https://pinterest.com/pin/create/bookmarklet?&url={url}"` |
+| Name        | Type   | Summary                                                                            |
+| ----------- | ------ | ---------------------------------------------------------------------------------- |
+| id          | String | Unique ID of share item service i.e. `facebook`, `twitter`, `linkedin`, `email`, etc. |
+| name        | String | Name of Share Item.                                                                |
+| className   | String | Class name of share icon.                                                          |
+| urlTemplate | String | URL template of share item. Consists of share service URL along with URL parameters i.e `"https://pinterest.com/pin/create/bookmarklet?&url={url}"` |
 
 ## Share Features
 
@@ -68,14 +68,31 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Property        | Type    | Summary                                                  |
+| Name            | Type    | Summary                                                  |
 | --------------- | ------- | -------------------------------------------------------- |
-| copyToClipboard? | boolean | Set value to `false` to toggle Copy URL feature off.     |
-| shareServices?   | boolean | Set value to `false` to toggle Share Items off.          |
-| embedMap?        | boolean | Set value to `false` to toggle Embed Map feature off.    |
-| shortenLink?     | boolean | Set value to `false` to toggle shorten link feature off. |
+| copyToClipboard | Boolean | Toggles copy share URL to clipboard feature.             |
+| embedMap        | Boolean | Toggles embed map feature.                               | 
+| shareServices   | Boolean | Toggles share item services feature.                     |
+| shortenLink     | Boolean | Toggles shorten URL feature.                             |
 
 **Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.
+
+## Share View Model
+
+### Constructor:
+
+#### new **ShareViewModel(_properties?_)**
+
+##### Property Overview:
+
+| Name            | Type    | Summary                                                  |
+| --------------- | ------- | -------------------------------------------------------- |
+| shareFeatures   | ShareFeatures | To be set with `ShareFeatures` class.              |
+| shareItems     | []ShareItem | Array of `ShareItem` class.                           |
+| shareModalOpened| Boolean | Property to toggle share modal                           |
+| shareUrl        | String  | Share URL of web application.                            |
+| state           | String  | Current state of the widget.                             |
+| view            | MapView \| SceneView | A reference to the MapView or SceneView     |
 
 ### **Examples:**
 
@@ -83,7 +100,8 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ```
 const share = new Share({
-    view: this.view
+    view: this.view,
+    container: document.createElement("div")
 });
 ```
 
@@ -116,7 +134,7 @@ const share = new Share({
  });
 
 const share = new Share({
-  view: this.view,
+  view: view,
   shareFeatures: shareFeatures,
   shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN]
 });

@@ -38,12 +38,12 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 | -------------- | -------------- | --------------------------------------------------- |
 | iconClass      | String         | The widget's default CSS icon class.                |
 | label          | String         | The widget's default label.                         |
-| shareFeatures  | ShareFeatures  | To be set with `ShareFeatures` class.               |
-| shareItems     | []ShareItem    | Array of `ShareItem` class.                         |
+| shareFeatures   | ShareFeatures | A reference to `ShareFeatures`.                     |
+| shareItems     | Collection\<ShareItem\> | Collection of `ShareItem` class.           |
 | shareModalOpened| Boolean       | Property to toggle share modal                      |
-| shareUrl       | String         | Share URL of web application. (Read-only)           |
+| shareUrl       | String         | Share URL of web application. `Read-only`           |
 | viewModel      | ShareViewModel | The view model for this widget.                     |
-| view           | MapView \| SceneView | A reference to the MapView or SceneView       |
+| view           | MapView \| SceneView | A reference to the `MapView` or `SceneView`       |
 
 
 ## Share Item
@@ -88,13 +88,13 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 | Name            | Type    | Summary                                                  |
 | --------------- | ------- | -------------------------------------------------------- |
-| embedCode       | String  | IFrame Embed Code (Read-only).                           |
-| shareFeatures   | ShareFeatures | To be set with `ShareFeatures` class.              |
-| shareItems      | []ShareItem | Array of `ShareItem` class.                          |
+| embedCode       | String  | IFrame Embed Code `Read-only`.                           |
+| shareFeatures   | ShareFeatures | A reference to `ShareFeatures`.                    |
+| shareItems     | Collection\<ShareItem\> | Collection of `ShareItem` class.          |
 | shareModalOpened| Boolean | Property to toggle share modal                           |
-| shareUrl        | String  | Share URL of web application. (Read-only)                |
+| shareUrl        | String  | Share URL of web application. `Read-only`                |
 | state           | String  | Current state of the widget.                             |
-| view            | MapView \| SceneView | A reference to the MapView or SceneView     |
+| view            | MapView \| SceneView | A reference to the `MapView` or `SceneView` |
 
 ### **Examples:**
 
@@ -110,36 +110,41 @@ const share = new Share({
 ##### Custom:
 
 ```
- const PINTEREST_ITEM = new ShareItem({
-   id: "pinterest",
-   name: "pinterest",
-   className: "icon-social-pinterest",
-   urlTemplate:
-     "https://pinterest.com/pin/create/bookmarklet?&url={url}"
- });
- const REDDIT_ITEM = new ShareItem({
-   id: "reddit",
-   name: "Reddit",
-   className: "icon-social-share",
-   urlTemplate: "https://reddit.com/submit?url={url}"
- });
- const LINKED_IN = new ShareItem({
-   id: "linkedin",
-   name: "LinkedIn",
-   className: "icon-social-linkedin",
-   urlTemplate: "https://linkedin.com/shareArticle?url={url}"
- });
+  const PINTEREST_ITEM = new ShareItem({
+    id: "pinterest",
+    name: "pinterest",
+    className: "icon-social-pinterest",
+    urlTemplate:
+      "https://pinterest.com/pin/create/bookmarklet?&url={url}"
+  });
+  const REDDIT_ITEM = new ShareItem({
+    id: "reddit",
+    name: "Reddit",
+    className: "icon-social-share",
+    urlTemplate: "https://reddit.com/submit?url={url}"
+  });
+  const LINKED_IN = new ShareItem({
+    id: "linkedin",
+    name: "LinkedIn",
+    className: "icon-social-linkedin",
+    urlTemplate: "https://linkedin.com/shareArticle?url={url}"
+  });
 
- const shareFeatures = new ShareFeatures({
-   copyToClipboard: false,
-   embedMap: false
- });
-
-const share = new Share({
-  view: view,
-  shareFeatures: shareFeatures,
-  shareItems: [PINTEREST_ITEM, REDDIT_ITEM, LINKED_IN]
-});
+  const shareFeatures = new ShareFeatures({
+    copyToClipboard: false,
+    embedMap: false
+  });
+  const ShareItemCollection = Collection.ofType<ShareItem>(ShareItem);
+  const shareItems = new ShareItemCollection([
+    PINTEREST_ITEM,
+    REDDIT_ITEM,
+    LINKED_IN
+  ]);
+  const share = new Share({
+    view,
+    shareFeatures,
+    shareItems
+  });
 ```
 
 ## Resources

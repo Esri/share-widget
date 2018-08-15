@@ -88,11 +88,11 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 | Name            | Type    | Summary                                                  |
 | --------------- | ------- | -------------------------------------------------------- |
-| embedCode       | String  | IFrame Embed Code.                                       |
+| embedCode       | String  | IFrame Embed Code (Read-only).                           |
 | shareFeatures   | ShareFeatures | To be set with `ShareFeatures` class.              |
 | shareItems      | []ShareItem | Array of `ShareItem` class.                          |
 | shareModalOpened| Boolean | Property to toggle share modal                           |
-| shareUrl        | String  | Share URL of web application.                            |
+| shareUrl        | String  | Share URL of web application. (Read-only)                |
 | state           | String  | Current state of the widget.                             |
 | view            | MapView \| SceneView | A reference to the MapView or SceneView     |
 

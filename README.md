@@ -37,8 +37,13 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 | Property       | Type           | Summary                                             |
 | -------------- | -------------- | --------------------------------------------------- |
 | view           | View           | View which can be set with `MapView` or `SceneView` |
-| shareItems?    | []ShareItem    | To be set as array consisting of `ShareItem` class. |
-| shareFeatures? | ShareFeatures  | To be set with `ShareFeatures` class.               |
+| shareItems     | []ShareItem    | To be set as array consisting of `ShareItem` class. |
+| shareFeatures  | ShareFeatures  | To be set with `ShareFeatures` class.               |
+| shareModalOpened| Boolean       | Property to toggle Share Modal                      |
+| shareUrl       | String         | Share URL of web application. (Read-only)           |
+| label          | String         | The widget's default label.                         |
+| iconClass      | String         | The widget's default CSS icon class.                |
+| shareViewModel | ShareViewModel | The view model for this widget.                     |
 
 ## Share Item
 

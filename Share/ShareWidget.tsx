@@ -128,8 +128,6 @@ const CSS = {
   },
   icons: {
     widgetIcon: "esri-icon-share",
-    shortenIcon: "esri-share__shorten-icon",
-    esriRotatingIcon: "esri-share--esri-rotating",
     copyIconContainer: "esri-share__copy-icon-container",
     copy: "esri-share__copy-icon",
     esriLoader: "esri-share__loader",

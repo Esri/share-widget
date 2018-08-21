@@ -98,7 +98,7 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ```
 const share = new ShareWidget({
-    view: view,
+    view,
     container: document.createElement("div")
 });
 ```

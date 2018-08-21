@@ -4,9 +4,6 @@ Share widget built for version 4.x of the ArcGIS API for Javascript
 
 ![share-widget](https://github.com/ArcGIS/share-widget/blob/master/images/share-link.png)​
 
-Link to repository of sample Web Map Application using Share Widget:
-https://github.com/rslibed/share-widget
-
 ## Features:
 
 1.  `MapView` and `SceneView` compatability
@@ -34,17 +31,16 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Name           | Type           | Summary                                             |
-| -------------- | -------------- | --------------------------------------------------- |
-| iconClass      | String         | The widget's default CSS icon class.                |
-| label          | String         | The widget's default label.                         |
-| shareFeatures   | ShareFeatures | A reference to `ShareFeatures`.                     |
-| shareItems     | Collection\<ShareItem\> | Collection of `ShareItem` class.           |
-| shareModalOpened| Boolean       | Property to toggle share modal                      |
-| shareUrl       | String         | Share URL of web application. `Read-only`           |
-| viewModel      | ShareViewModel | The view model for this widget.                     |
-| view           | MapView \| SceneView | A reference to the `MapView` or `SceneView`       |
-
+| Name             | Type                    | Summary                                     |
+| ---------------- | ----------------------- | ------------------------------------------- |
+| iconClass        | String                  | The widget's default CSS icon class.        |
+| label            | String                  | The widget's default label.                 |
+| shareFeatures    | ShareFeatures           | A reference to `ShareFeatures`.             |
+| shareItems       | Collection\<ShareItem\> | Collection of `ShareItem` class.            |
+| shareModalOpened | Boolean                 | Property to toggle share modal              |
+| shareUrl         | String                  | Share URL of web application. `Read-only`   |
+| viewModel        | ShareViewModel          | The view model for this widget.             |
+| view             | MapView \| SceneView    | A reference to the `MapView` or `SceneView` |
 
 ## ShareItem
 
@@ -54,11 +50,11 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Name        | Type   | Summary                                                                            |
-| ----------- | ------ | ---------------------------------------------------------------------------------- |
-| className   | String | Class name of share item icon.                                                          |
-| id          | String | Unique ID of share item service i.e. `facebook`, `twitter`, `linkedin`, `email`, etc.|
-| name        | String | Name of Share Item.                                                                |
+| Name        | Type   | Summary                                                                                                                                             |
+| ----------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className   | String | Class name of share item icon.                                                                                                                      |
+| id          | String | Unique ID of share item service i.e. `facebook`, `twitter`, `linkedin`, `email`, etc.                                                               |
+| name        | String | Name of Share Item.                                                                                                                                 |
 | urlTemplate | String | URL template of share item. Consists of share service URL along with URL parameters i.e `"https://pinterest.com/pin/create/bookmarklet?&url={url}"` |
 
 ## ShareFeatures
@@ -69,12 +65,12 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Name            | Type    | Summary                                                  |
-| --------------- | ------- | -------------------------------------------------------- |
-| copyToClipboard | Boolean | Toggles copy share URL to clipboard feature.             |
-| embedMap        | Boolean | Toggles embed map feature.                               | 
-| shareServices   | Boolean | Toggles share item services feature.                     |
-| shortenLink     | Boolean | Toggles shorten URL feature.                             |
+| Name            | Type    | Summary                                      |
+| --------------- | ------- | -------------------------------------------- |
+| copyToClipboard | Boolean | Toggles copy share URL to clipboard feature. |
+| embedMap        | Boolean | Toggles embed map feature.                   |
+| shareServices   | Boolean | Toggles share item services feature.         |
+| shortenLink     | Boolean | Toggles shorten URL feature.                 |
 
 **Please note:** Both `copyToClipboard` and `shareServices` properties **cannot** be toggled off concurrently.
 
@@ -86,15 +82,15 @@ Calcite Web Documentation: https://esri.github.io/calcite-web/documentation/
 
 ##### Property Overview:
 
-| Name            | Type    | Summary                                                  |
-| --------------- | ------- | -------------------------------------------------------- |
-| embedCode       | String  | IFrame Embed Code `Read-only`.                           |
-| shareFeatures   | ShareFeatures | A reference to `ShareFeatures`.                    |
-| shareItems     | Collection\<ShareItem\> | Collection of `ShareItem` class.          |
-| shareModalOpened| Boolean | Property to toggle share modal                           |
-| shareUrl        | String  | Share URL of web application. `Read-only`                |
-| state           | String  | Current state of the widget.                             |
-| view            | MapView \| SceneView | A reference to the `MapView` or `SceneView` |
+| Name             | Type                    | Summary                                     |
+| ---------------- | ----------------------- | ------------------------------------------- |
+| embedCode        | String                  | IFrame Embed Code `Read-only`.              |
+| shareFeatures    | ShareFeatures           | A reference to `ShareFeatures`.             |
+| shareItems       | Collection\<ShareItem\> | Collection of `ShareItem` class.            |
+| shareModalOpened | Boolean                 | Property to toggle share modal              |
+| shareUrl         | String                  | Share URL of web application. `Read-only`   |
+| state            | String                  | Current state of the widget.                |
+| view             | MapView \| SceneView    | A reference to the `MapView` or `SceneView` |
 
 ### **Examples:**
 
@@ -149,26 +145,27 @@ const share = new ShareWidget({
 
 ## Resources
 
-* [ArcGIS for JavaScript API Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
-* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* [twitter@esri](http://twitter.com/esri)
+- [ArcGIS for JavaScript API Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
+- [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+- [twitter@esri](http://twitter.com/esri)
 
 ## Issues
 
-Find a bug or want to request a new feature?  Please let us know by submitting an issue.
+Find a bug or want to request a new feature? Please let us know by submitting an issue.
 
 ## Contributing
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
+
 Copyright 2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,

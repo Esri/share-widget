@@ -9,6 +9,5 @@ define({
     sendLink: "Send a link",
     embedMap: "Embed map",
     copied: "Copied"
-  },
-  ja: 1
+  }
 });

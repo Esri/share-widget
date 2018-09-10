@@ -271,6 +271,7 @@ class Share extends declared(Widget) {
             CSS.shareButton
           )}
           bind={this}
+          title={i18n.heading}
           onclick={this._toggleShareModal}
           onkeydown={this._toggleShareModal}
         />
@@ -639,8 +640,8 @@ class Share extends declared(Widget) {
             {copyUrlNode}
           </div>
         ) : (
-          <div class={CSS.icons.esriLoader} />
-        )}
+            <div class={CSS.icons.esriLoader} />
+          )}
       </article>
     );
   }
@@ -682,10 +683,10 @@ class Share extends declared(Widget) {
             readOnly
           />
         ) : (
-          <div class={CSS.shareModal.main.mainUrl.linkGenerating}>
-            {i18n.generateLink}
-          </div>
-        )}
+            <div class={CSS.shareModal.main.mainUrl.linkGenerating}>
+              {i18n.generateLink}
+            </div>
+          )}
       </div>
     );
   }
@@ -734,8 +735,8 @@ class Share extends declared(Widget) {
                 </div>
               </div>
             ) : (
-              <div class={CSS.icons.esriLoader} />
-            )}
+                <div class={CSS.icons.esriLoader} />
+              )}
           </article>
         ) : null}
       </div>

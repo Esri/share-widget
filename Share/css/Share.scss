@@ -42,9 +42,7 @@ $icon-width: 20px;
 }
 
 .esri-share__copy-icon {
-  text-align: center;
   width: 15px;
-  margin: 0 auto;
 }
 
 .esri-share__embed-content-container {
@@ -95,14 +93,22 @@ $icon-width: 20px;
     margin-bottom: 3%;
   }
 
+  .esri-share__copy-clipboard-container,
+  .esri-share__iframe-input-container {
+    display: flex;
+    flex-direction: row;
+  }
+
   .esri-share__copy-button,
   .esri-share__copy-clipboard-url,
   .esri-share__copy-clipboard-iframe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 12%;
     text-align: center;
     background-color: $modal-button-background-color;
     color: $modal-button-text-color;
-    display: inline-block;
     height: 30px;
     vertical-align: top;
     box-sizing: border-box;

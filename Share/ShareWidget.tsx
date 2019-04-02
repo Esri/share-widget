@@ -262,7 +262,7 @@ class Share extends declared(Widget) {
   render() {
     const shareModalNode = this._renderShareModal();
     return (
-      <div class={CSS.base} aria-labelledby="modal">
+      <div class={CSS.base} aria-labelledby="shareModal">
         <button
           class={this.classes(
             CSS.shareModal.calciteStyles.modal.jsModalToggle,
@@ -415,7 +415,9 @@ class Share extends declared(Widget) {
         onclick={this._stopPropagation}
         onkeydown={this._stopPropagation}
       >
-        <h1 class={CSS.shareModal.header.heading}>{i18n.heading}</h1>
+        <h1 id="shareModal" class={CSS.shareModal.header.heading}>
+          {i18n.heading}
+        </h1>
         <div>{modalContentNode}</div>
         <div
           bind={this}

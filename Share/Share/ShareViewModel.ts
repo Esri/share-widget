@@ -48,7 +48,7 @@ const ShareItemCollection = Collection.ofType<ShareItem>(ShareItem);
 const FACEBOOK_ITEM = new ShareItem({
   id: "facebook",
   name: "Facebook",
-  urlTemplate: "https://www.facebook.com/sharer/sharer.php?s=100&p[url]={url}"
+  urlTemplate: "https://www.facebook.com/sharer/sharer.php?s=100&u={url}"
 });
 const TWITTER_ITEM = new ShareItem({
   id: "twitter",
@@ -119,11 +119,11 @@ class ShareViewModel extends declared(Accessor) {
       ? this._projectionPromise
         ? "projecting"
         : this._shortenPromise
-          ? "shortening"
-          : "ready"
+        ? "shortening"
+        : "ready"
       : this.view
-        ? "loading"
-        : "disabled";
+      ? "loading"
+      : "disabled";
   }
 
   //----------------------------------
@@ -136,9 +136,7 @@ class ShareViewModel extends declared(Accessor) {
     readOnly: true
   })
   get embedCode(): string {
-    return `<iframe src="${
-      this.shareUrl
-    }" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>`;
+    return `<iframe src="${this.shareUrl}" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>`;
   }
 
   //----------------------------------
@@ -291,8 +289,8 @@ class ShareViewModel extends declared(Accessor) {
       path.indexOf("?") === -1
         ? "?"
         : path.indexOf("?") !== -1 && path.indexOf("=") !== -1
-          ? "&"
-          : "";
+        ? "&"
+        : "";
     const shareParams = `${path}${sep}center=${roundedLon},${roundedLat}&level=${roundedZoom}`;
     const type = this.get("view.type");
     // Checks if view.type is 3D, if so add, 3D url parameters

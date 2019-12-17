@@ -101,8 +101,8 @@ class ShareViewModel extends declared(Accessor) {
   //----------------------------------
 
   // Promises for widget state
-  private _shortenPromise: IPromise = null;
-  private _projectionPromise: IPromise = null;
+  private _shortenPromise: Promise<__esri.RequestResponse> = null;
+  private _projectionPromise: Promise<any[]> = null;
 
   //----------------------------------
   //
@@ -309,7 +309,6 @@ class ShareViewModel extends declared(Accessor) {
 
   private _shorten(url: string): IPromise<string> {
     this._shortenPromise = esriRequest(SHORTEN_API, {
-      callbackParamName: "callback",
       query: {
         longUrl: url,
         f: "json"

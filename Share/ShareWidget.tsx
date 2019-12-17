@@ -7,7 +7,7 @@ import i18n = require("dojo/i18n!./Share/nls/resources");
 // esri.core
 import Collection = require("esri/core/Collection");
 import watchUtils = require("esri/core/watchUtils");
-import { substitute } from "esri/core/lang";
+import { substitute } from "esri/intl";
 
 // esri.core.accessorSupport
 import {
@@ -137,6 +137,9 @@ const CSS = {
 
 @subclass("Share")
 class Share extends declared(Widget) {
+  constructor(params?: any) {
+    super(params);
+  }
   //----------------------------------
   //
   //  Private Variables
@@ -169,6 +172,7 @@ class Share extends declared(Widget) {
   //----------------------------------
 
   @aliasOf("viewModel.view")
+  @property()
   view: MapView | SceneView = null;
 
   //----------------------------------
@@ -339,10 +343,10 @@ class Share extends declared(Widget) {
     const { urlTemplate } = shareItem;
     const portalItem = this.get<PortalItem>("view.map.portalItem");
     const title = portalItem
-      ? substitute({ title: portalItem.title }, i18n.urlTitle)
+      ? substitute(i18n.urlTitle, { title: portalItem.title })
       : null;
     const summary = portalItem
-      ? substitute({ summary: portalItem.snippet }, i18n.urlSummary)
+      ? substitute(i18n.urlSummary, { summary: portalItem.snippet })
       : null;
     this._openUrl(this.shareUrl, title, summary, urlTemplate);
   }
@@ -368,14 +372,11 @@ class Share extends declared(Widget) {
     summary: string,
     urlTemplate: string
   ): void {
-    const urlToOpen = substitute(
-      {
-        url: encodeURI(url),
-        title,
-        summary
-      },
-      urlTemplate
-    );
+    const urlToOpen = substitute(urlTemplate, {
+      url: encodeURI(url),
+      title,
+      summary
+    });
     window.open(urlToOpen);
   }
 

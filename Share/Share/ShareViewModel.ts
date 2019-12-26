@@ -256,7 +256,7 @@ class ShareViewModel extends declared(Accessor) {
       point,
       outputSpatialReference
     ) as __esri.Point;
-    this._projecting = true;
+    this._projecting = false;
     this.notifyChange("state");
     return projectedPoint;
   }

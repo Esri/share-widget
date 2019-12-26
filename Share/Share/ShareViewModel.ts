@@ -4,7 +4,6 @@
 // esri.core
 import Accessor = require("esri/core/Accessor");
 import Collection = require("esri/core/Collection");
-import requireUtils = require("esri/core/requireUtils");
 import promiseUtils = require("esri/core/promiseUtils");
 
 // esri.core.accessorSupport
@@ -32,6 +31,10 @@ import ShareItem = require("./ShareItem");
 
 // Share Feature
 import ShareFeatures = require("./ShareFeatures");
+
+// esri.geometry
+import projection = require("esri/geometry/projection");
+import SpatialReference = require("esri/geometry/SpatialReference");
 
 //----------------------------------
 //
@@ -197,7 +200,7 @@ class ShareViewModel extends declared(Accessor) {
   //  Public Methods
   //
   //----------------------------------
-  generateUrl(): IPromise<string> {
+  generateUrl(): Promise<string> {
     return this._generateShareUrl().then(url => {
       const { shortenLink } = this.shareFeatures;
       if (shortenLink) {
@@ -218,7 +221,7 @@ class ShareViewModel extends declared(Accessor) {
   //  Private Methods
   //
   //----------------------------------
-  private _generateShareUrl(): IPromise<string> {
+  private _generateShareUrl(): Promise<string> {
     const { href } = window.location;
     // If view is not ready
     if (!this.get("view.ready")) {
@@ -240,36 +243,40 @@ class ShareViewModel extends declared(Accessor) {
     });
   }
 
-  private _processPoint(point: Point): IPromise<Point> {
+  private _processPoint(point: Point): Promise<__esri.Point> {
     const { isWGS84, isWebMercator } = point.spatialReference;
     // If spatial reference is WGS84 or Web Mercator, use longitude/latitude values to generate the share URL parameters
     if (isWGS84 || isWebMercator) {
       return promiseUtils.resolve(point);
     }
-    this._projectionPromise = requireUtils.when(moduleRequire, [
-      "esri/geometry/projection",
-      "esri/geometry/SpatialReference"
-    ]);
+    this._projectionPromise = projection.load();
     this.notifyChange("state");
-    return this._projectionPromise.then(([projection, SpatialReference]) => {
+
+    return this._projectionPromise.then(() => {
+      // Check if client side projection is not supported
+      if (!projection.isSupported()) {
+        const point = new Point({
+          x: null,
+          y: null
+        });
+        this._projectionPromise = null;
+        this.notifyChange("state");
+        return promiseUtils.resolve(point);
+      }
+
       const outputSpatialReference = new SpatialReference({
         wkid: 4326
       });
-      return projection.load().then(() => {
-        // Check if client side projection is not supported
-        if (!projection.isSupported()) {
-          const point = new Point({
-            x: null,
-            y: null
-          });
-          return promiseUtils.resolve(point);
-        }
-        const projectedPoint = projection.project(
-          point,
-          outputSpatialReference
-        );
-        return promiseUtils.resolve(projectedPoint);
-      });
+
+      const projectedPoint = projection.project(
+        point,
+        outputSpatialReference
+      ) as __esri.Point;
+
+      this._projectionPromise = null;
+      this.notifyChange("state");
+
+      return promiseUtils.resolve(projectedPoint);
     });
   }
 
@@ -307,7 +314,7 @@ class ShareViewModel extends declared(Accessor) {
     return shareParams;
   }
 
-  private _shorten(url: string): IPromise<string> {
+  private _shorten(url: string): Promise<string> {
     this._shortenPromise = esriRequest(SHORTEN_API, {
       query: {
         longUrl: url,

@@ -1,4 +1,6 @@
-# share-widget
+# DEPRECATED
+
+This repo is no longer maintained. All updates to the share widget will be updated here https://github.com/Esri/configurable-app-components/tree/master/Share.
 
 Share widget built for version 4.x of the ArcGIS API for Javascript
 
